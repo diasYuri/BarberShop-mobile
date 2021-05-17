@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React from 'react';
+import React, {useRef} from 'react';
 import {
   Image,
   KeyboardAvoidingView,
@@ -9,6 +9,8 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import {useNavigation} from '@react-navigation/native';
+import {FormHandles} from '@unform/core';
+import {Form} from '@unform/mobile';
 
 import {
   Container,
@@ -25,6 +27,7 @@ import Button from '../../components/button';
 
 const SignIn: React.FC = () => {
   const navigation = useNavigation();
+  const formRef = useRef<FormHandles>(null);
 
   return (
     <>
@@ -40,10 +43,16 @@ const SignIn: React.FC = () => {
             <View>
               <Title>Faça seu logon</Title>
             </View>
-            <Input name="email" icon="mail" placeholder="E-mail" />
-            <Input name="senha" icon="lock" placeholder="Senha" />
-            <Button>Entrar</Button>
-
+            <Form ref={formRef} onSubmit={() => {}}>
+              <Input name="email" icon="mail" placeholder="E-mail" />
+              <Input name="senha" icon="lock" placeholder="Senha" />
+              <Button
+                onPress={() => {
+                  formRef.current?.submitForm();
+                }}>
+                Entrar
+              </Button>
+            </Form>
             <ForgotPassword>
               <ForgotPasswordText>Esqueci minha senha</ForgotPasswordText>
             </ForgotPassword>
